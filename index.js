@@ -38,7 +38,6 @@ app.use(function(req, res, next) {
 
 app.use('/auth', usersRoutes);
 app.use('/cities', citiesRoutes);
-app.use('/contents', contentsRoutes);
 app.use('/favorites', favoritesRoutes);
 app.use('/places', placesRoutes);
 app.use('/ratings', ratingsRoutes);
