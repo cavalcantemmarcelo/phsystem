@@ -25,7 +25,7 @@ const PlacesPage = () => {
       lat: "",
       long: "",
     },
-    facilities: [],
+    capacity: "",
   });
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const PlacesPage = () => {
         description,
         link,
         location,
-        facilities,
+        capacity,
       } = response.data;
 
       setFormFields({
@@ -93,7 +93,7 @@ const PlacesPage = () => {
         description,
         link,
         location,
-        facilities,
+        capacity,
       });
 
       setIsModalOpen(true);
@@ -114,7 +114,7 @@ const PlacesPage = () => {
           description: formFields.description,
           link: formFields.link,
           location: formFields.location,
-          facilities: formFields.facilities,
+          capacity: formFields.capacity,
         };
         await axios.put(`${apiUrl}/${editingPlace._id}`, formData);
       } else {
@@ -126,7 +126,7 @@ const PlacesPage = () => {
           description: formFields.description,
           link: formFields.link,
           location: formFields.location,
-          facilities: formFields.facilities,
+          capacity: formFields.capacity,
         };
         await axios.post(apiUrl, formData);
       }
@@ -157,7 +157,7 @@ const PlacesPage = () => {
   return (
     <div className="flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-lg shadow-md w-full">
-        <h1 className="text-2xl font-semibold mb-4">Lugares</h1>
+        <h1 className="text-2xl font-semibold mb-4">Locais de Atendimento</h1>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
@@ -172,7 +172,7 @@ const PlacesPage = () => {
                 description: formFields.description,
                 link: formFields.link,
                 location: formFields.location,
-                facilities: formFields.facilities,
+                capacity: formFields.capacity,
               },
               handleCreateOrUpdatePlace
             )
@@ -185,7 +185,10 @@ const PlacesPage = () => {
             <tr>
               <th className="py-2 px-4 bg-gray-100">Nome</th>
               <th className="py-2 px-4 bg-gray-100">Cidade</th>
-              <th className="py-2 px-4 bg-gray-100">Ações</th>
+              <th className="py-2 px-4 bg-gray-100">Capacidade</th>
+              <th className="py-2 px-4 bg-gray-100">Descrição</th>
+              <th className="py-2 px-4 bg-gray-100">Categoria</th>
+              <th className="py-2 px-4 bg-gray-100 w-80">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -195,6 +198,9 @@ const PlacesPage = () => {
                 <td className="py-2 px-4">
                   {cities.find((city) => city._id === place.city)?.name}
                 </td>
+                <td className="py-2 px-4">{place.capacity}</td>
+                <td className="py-2 px-4">{place.description}</td>
+                <td className="py-2 px-4">{place.category}</td>
                 <td>
                   <button
                     className="bg-blue-500 hover-bg-blue-700 mx-5 text-white font-bold py-2 px-4 rounded"
@@ -232,6 +238,13 @@ const PlacesPage = () => {
                 type: "text",
                 label: "Nome",
                 value: formFields.name,
+                onChange: handleInputChange,
+              },
+              {
+                name: "capacity",
+                type: "text",
+                label: "Capacidade",
+                value: formFields.capacity,
                 onChange: handleInputChange,
               },
               {
