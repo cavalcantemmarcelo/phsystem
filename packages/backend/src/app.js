@@ -7,9 +7,6 @@ const app = express();
 const port = 3333;
 const cors = require('cors');
 
-app.use(bodyParser.urlencoded({ extended: true })); // Place bodyParser middleware here
-app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
