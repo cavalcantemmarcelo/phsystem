@@ -7,7 +7,7 @@ import FeaturesSection from "@/sections/FeaturesSection";
 import ModulesSection from "@/sections/ModulesSection";
 import FaqSection from "@/sections/FaqSection";
 import Footer from "@/sections/Footer";
-import LogoutButton from "@/components/LogoutButton";
+import withLogin from "@/scripts/withLogin";
 
 const ctaLinkDefault = "https://seusite.com/seu-link";
 const faqData = {
@@ -143,7 +143,7 @@ const toolsData = {
   imageAlt: "Seu Produto",
 };
 
-export default function Home() {
+function Home() {
   return (
     <>
       <Header data={headerData} />
@@ -158,3 +158,5 @@ export default function Home() {
     </>
   );
 }
+
+export default withLogin(Home);
