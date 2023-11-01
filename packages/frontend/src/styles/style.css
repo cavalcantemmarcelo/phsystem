@@ -1,0 +1,107 @@
+.transform-fade-down-enter-active,
+.transform-fade-down-leave-active {
+    @apply transition-all translate-y-0 duration-300;
+}
+
+.transform-fade-down-enter,
+.transform-fade-down-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+    {
+    @apply opacity-0 transform -translate-y-2;
+}
+
+.paragraph {
+    @apply text-gray-700 tracking-wide leading-relaxed;
+}
+
+.text-blue {
+    color: #0284c7;
+}
+
+.cta {
+    background-color: #0285c7d0;
+    color: #fff;
+    margin: 2rem auto;
+    display: block;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.text-white {
+    color: #fff;
+}
+
+.fa-1x {
+    color: rgb(19, 112, 19);
+    font-size: 20px;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.bg-blue {
+    background-color: linear-gradient(90deb, rgb(70, 82, 250), rgb(0, 102, 255));
+}
+
+.bg-gray-100 {
+    background-color: linear-gradient(90deb, rgba(255, 255, 255, 1), rgba(120, 120, 120, .5));
+}
+
+.text-gradient {
+    background: rgb(60, 60, 170);
+    background: linear-gradient(0deg, #0284c7 0, #2aacdb 70%, #0284c7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.parallax {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 4rem 0;
+}
+
+/* Animation for items */
+.fade-in {
+    animation: fadeIn ease 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer {
+    color: darkslategray;
+    font-size: 1rem;
+}
+
+.production {
+    font-size: .9rem;
+
+    img {
+        min-heigth: 1.5em;
+    }
+}
+
+#backToTopBtn {
+    display: none;
+}
+
+#backToTopBtn i {
+    font-size: 1.5rem;
+}
