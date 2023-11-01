@@ -1,81 +1,155 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
 import withLogin from "@/scripts/withLogin";
 
-const apiUrl = "http://localhost:3333/states";
+const apiUrl = "http://localhost:3333/places";
+const citiesApiUrl = "http://localhost:3333/cities";
 
-const StatePage = () => {
-  const [name, setName] = useState("");
-  const [abbreviation, setAbbreviation] = useState("");
-  const [states, setStates] = useState([]);
+const PlacesPage = () => {
+  const [places, setPlaces] = useState([]);
+  const [cities, setCities] = useState([]);
   const [error, setError] = useState(null);
-
-  // New state to hold the state being edited
-  const [editingState, setEditingState] = useState(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingPlace, setEditingPlace] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [formFields, setFormFields] = useState({
+    city: "",
+    name: "",
+    image: "default.png",
+    category: "",
+    description: "",
+    link: "",
+    location: {
+      lat: "",
+      long: "",
+    },
+    facilities: [],
+  });
 
   useEffect(() => {
-    const fetchStates = async () => {
+    const fetchPlaces = async () => {
       try {
         const response = await axios.get(apiUrl);
-        setStates(response.data);
+        setPlaces(response.data);
       } catch (error) {
-        setError("Error fetching states from the API.");
+        setError("Error fetching places from the API.");
       }
     };
 
-    fetchStates();
+    const fetchCities = async () => {
+      try {
+        const response = await axios.get(citiesApiUrl);
+        setCities(response.data);
+      } catch (error) {
+        setError("Error fetching cities from the API.");
+      }
+    };
+
+    fetchPlaces();
+    fetchCities();
   }, []);
 
-  // Fetch a specific state by its ID for editing
-  const fetchStateForEdit = async (stateId) => {
+  const openModal = (title, fields, onSubmit) => {
+    setFormFields(fields);
+    setModalTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields({
+      ...formFields,
+      [name]: value,
+    });
+  };
+
+  const fetchPlaceForEdit = async (placeId) => {
     try {
-      const response = await axios.get(`${apiUrl}/${stateId}`);
-      setEditingState(response.data);
-      setShowCreateModal(true); // Show the modal for editing
+      const response = await axios.get(`${apiUrl}/${placeId}`);
+      setEditingPlace(response.data);
+
+      const {
+        city,
+        name,
+        image,
+        category,
+        description,
+        link,
+        location,
+        facilities,
+      } = response.data;
+
+      setFormFields({
+        city,
+        name,
+        image,
+        category,
+        description,
+        link,
+        location,
+        facilities,
+      });
+
+      setIsModalOpen(true);
     } catch (error) {
-      setError("Error fetching state for editing.");
+      console.error("Error fetching place for editing:", error);
+      setError("Error fetching place for editing.");
     }
   };
 
-  // Handle creating or updating a state
-  const handleCreateOrUpdateState = async () => {
+  const handleCreateOrUpdatePlace = async () => {
     try {
-      if (editingState) {
-        // If editingState is defined, update the state
+      if (editingPlace) {
         const formData = {
-          name: editingState.name,
-          abbreviation: editingState.abbreviation,
+          city: formFields.city,
+          name: formFields.name,
+          image: formFields.image,
+          category: formFields.category,
+          description: formFields.description,
+          link: formFields.link,
+          location: formFields.location,
+          facilities: formFields.facilities,
         };
-        await axios.put(`${apiUrl}/${editingState._id}`, formData);
+        await axios.put(`${apiUrl}/${editingPlace._id}`, formData);
       } else {
-        // If editingState is not defined, create a new state
-        const formData = { name, abbreviation };
+        const formData = {
+          city: formFields.city,
+          name: formFields.name,
+          image: formFields.image,
+          category: formFields.category,
+          description: formFields.description,
+          link: formFields.link,
+          location: formFields.location,
+          facilities: formFields.facilities,
+        };
         await axios.post(apiUrl, formData);
       }
 
-      // Clear the editing state and refresh the list
-      setEditingState(null);
-      setShowCreateModal(false);
-      setName("");
-      setAbbreviation("");
+      setEditingPlace(null);
+      closeModal();
+
       const response = await axios.get(apiUrl);
-      setStates(response.data);
+      setPlaces(response.data);
     } catch (error) {
-      setError("Error creating or updating the state.");
+      setError("Error creating or updating the place.");
     }
   };
 
-  const handleDeleteState = async (stateId) => {
-    if (window.confirm("Deseja realmente deletar este estado?")) {
+  const handleDeletePlace = async (placeId) => {
+    if (window.confirm("Deseja realmente deletar este lugar?")) {
       try {
-        await axios.delete(`${apiUrl}/${stateId}`);
-        // Refresh the state list after deletion
+        await axios.delete(`${apiUrl}/${placeId}`);
+
         const response = await axios.get(apiUrl);
-        setStates(response.data);
+        setPlaces(response.data);
       } catch (error) {
-        setError("Error deleting the state.");
+        setError("Error deleting the place.");
       }
     }
   };
@@ -83,40 +157,54 @@ const StatePage = () => {
   return (
     <div className="flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-lg shadow-md w-full">
-        <h1 className="text-2xl font-semibold mb-4">Estados</h1>
-
+        <h1 className="text-2xl font-semibold mb-4">Lugares</h1>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setShowCreateModal(true)}
+          onClick={() =>
+            openModal(
+              "Criar Lugar",
+              {
+                city: formFields.city,
+                name: formFields.name,
+                image: formFields.image,
+                category: formFields.category,
+                description: formFields.description,
+                link: formFields.link,
+                location: formFields.location,
+                facilities: formFields.facilities,
+              },
+              handleCreateOrUpdatePlace
+            )
+          }
         >
-          Criar Estado
+          Criar Lugar
         </button>
-
         <table className="w-full mt-4">
           <thead>
             <tr>
               <th className="py-2 px-4 bg-gray-100">Nome</th>
-              <th className="py-2 px-4 bg-gray-100">Abreviação</th>
+              <th className="py-2 px-4 bg-gray-100">Cidade</th>
               <th className="py-2 px-4 bg-gray-100">Ações</th>
             </tr>
           </thead>
           <tbody>
-            {states.map((state) => (
-              <tr key={state._id}>
-                <td className="py-2 px-4">{state.name}</td>
-                <td className="py-2 px-4">{state.abbreviation}</td>
+            {places.map((place) => (
+              <tr key={place._id}>
+                <td className="py-2 px-4">{place.name}</td>
+                <td className="py-2 px-4">
+                  {cities.find((city) => city._id === place.city)?.name}
+                </td>
                 <td>
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 mx-5 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => fetchStateForEdit(state._id)}
+                    className="bg-blue-500 hover-bg-blue-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => fetchPlaceForEdit(place._id)}
                   >
                     Editar
                   </button>
                   <button
-                    className="bg-red-500 hover:bg-red-700  mx-5 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleDeleteState(state._id)}
+                    className="bg-red-500 hover-bg-red-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => handleDeletePlace(place._id)}
                   >
                     Deletar
                   </button>
@@ -125,48 +213,55 @@ const StatePage = () => {
             ))}
           </tbody>
         </table>
-
-        {showCreateModal && (
-          <div>
-            <h2>{editingState ? "Editar Estado" : "Criar Estado"}</h2>
-            <GenericForm
-              fields={[
-                {
-                  name: "name",
-                  type: "text",
-                  label: "Estado",
-                  value: editingState ? editingState.name : name,
-                  onChange: (e) =>
-                    editingState
-                      ? setEditingState({
-                          ...editingState,
-                          name: e.target.value,
-                        })
-                      : setName(e.target.value),
-                },
-                {
-                  name: "abbreviation",
-                  type: "text",
-                  label: "Abreviação",
-                  value: editingState
-                    ? editingState.abbreviation
-                    : abbreviation,
-                  onChange: (e) =>
-                    editingState
-                      ? setEditingState({
-                          ...editingState,
-                          abbreviation: e.target.value,
-                        })
-                      : setAbbreviation(e.target.value),
-                },
-              ]}
-              onSubmit={handleCreateOrUpdateState}
-            />
-          </div>
-        )}
+        <Modal isOpen={isModalOpen} onClose={closeModal} title={modalTitle}>
+          <GenericForm
+            fields={[
+              {
+                name: "city",
+                type: "select",
+                label: "Cidade",
+                value: formFields.city,
+                options: cities.map((city) => ({
+                  value: city._id,
+                  label: city.name,
+                })),
+                onChange: handleInputChange,
+              },
+              {
+                name: "name",
+                type: "text",
+                label: "Nome",
+                value: formFields.name,
+                onChange: handleInputChange,
+              },
+              {
+                name: "category",
+                type: "text",
+                label: "Categoria",
+                value: formFields.category,
+                onChange: handleInputChange,
+              },
+              {
+                name: "description",
+                type: "text",
+                label: "Descrição",
+                value: formFields.description,
+                onChange: handleInputChange,
+              },
+              {
+                name: "link",
+                type: "text",
+                label: "Link",
+                value: formFields.link,
+                onChange: handleInputChange,
+              },
+            ]}
+            onSubmit={handleCreateOrUpdatePlace}
+          />
+        </Modal>
       </div>
     </div>
   );
 };
 
-export default withLogin(StatePage);
+export default withLogin(PlacesPage);

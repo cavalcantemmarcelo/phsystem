@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }) {
         <GoogleTagManager />
       </Head>
       <Component {...pageProps} />
+      <div id="modal-root"></div>
     </Fragment>
   );
 }

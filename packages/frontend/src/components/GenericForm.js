@@ -16,14 +16,31 @@ const GenericForm = ({ fields, onSubmit }) => {
               <label htmlFor={field.name} className="block text-gray-600">
                 {field.label}:
               </label>
-              <input
-                type={field.type}
-                id={field.name}
-                name={field.name}
-                className="border rounded w-full py-2 px-3"
-                value={field.value}
-                onChange={field.onChange}
-              />
+              {field.type === "select" ? (
+                <select
+                  id={field.name}
+                  name={field.name}
+                  className="border rounded w-full py-2 px-3"
+                  value={field.value}
+                  onChange={field.onChange}
+                >
+                  <option>-- selecione --</option>
+                  {field.options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  id={field.name}
+                  name={field.name}
+                  className="border rounded w-full py-2 px-3"
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
             </div>
           ))}
           <button
