@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Head from "next/head";
 import "@/styles/style.css";
 import GoogleTagManager from "@/scripts/GoogleTagManager";
@@ -6,6 +6,21 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      const removeMismatchedElements = () => {
+        const serverRendered = document.querySelectorAll(
+          "[data-server-rendered]"
+        );
+        serverRendered.forEach((element) => {
+          element.parentNode.removeChild(element);
+        });
+      };
+
+      removeMismatchedElements();
+    }
+  }, []);
+
   return (
     <Fragment>
       <Head>

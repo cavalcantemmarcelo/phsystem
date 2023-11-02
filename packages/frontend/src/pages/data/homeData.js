@@ -117,7 +117,7 @@ const homeData = {
   },
 
   toolsData: {
-    title: "PH System: A Ferramenta Necessária",
+    title: "PH System: um sistema necessário",
     paragraphs: [
       {
         subtitle: "Mais Eficiência",

@@ -1,12 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import isAuthenticated from "./IsAuthenticated";
 
-const isAuthenticated = () => {
-  const token = sessionStorage.getItem("token");
-  return !!token;
-};
-
-const withLogin = (Component) => {
+const WithLogin = (Component) => {
   return (props) => {
     const router = useRouter();
 
@@ -20,4 +16,4 @@ const withLogin = (Component) => {
   };
 };
 
-export default withLogin;
+export default WithLogin;

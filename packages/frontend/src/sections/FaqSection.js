@@ -2,7 +2,7 @@ import React from "react";
 
 function FaqSection({ data }) {
   return (
-    <section id="faq" className="overflow-hidden">
+    <section id="faq" className="overflow-hidden py-16">
       <div className="container mx-auto">
         <h2 className="text-2xl font-semibold text-center mb-6 text-black">
           Perguntas Frequentes

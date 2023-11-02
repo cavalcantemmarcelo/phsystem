@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
-import withLogin from "@/scripts/withLogin";
+import WithLogin from "@/scripts/WithLogin";
 
 const apiUrl = "http://localhost:3333/places";
 const citiesApiUrl = "http://localhost:3333/cities";
@@ -155,12 +155,12 @@ const PlacesPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50">
+    <div className="flex items-center justify-center bg-gray-50 rounded">
       <div className="bg-white p-8 rounded-lg shadow-md w-full">
         <h1 className="text-2xl font-semibold mb-4">Locais de Atendimento</h1>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-semibold  py-1 px-2 rounded"
           onClick={() =>
             openModal(
               "Criar Lugar",
@@ -203,13 +203,13 @@ const PlacesPage = () => {
                 <td className="py-2 px-4">{place.category}</td>
                 <td>
                   <button
-                    className="bg-blue-500 hover-bg-blue-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover-bg-blue-700 mx-2 text-white font-semibold  py-1 px-2 rounded"
                     onClick={() => fetchPlaceForEdit(place._id)}
                   >
                     Editar
                   </button>
                   <button
-                    className="bg-red-500 hover-bg-red-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    className="bg-red-500 hover-bg-red-700 mx-2 text-white font-semibold  py-1 px-2 rounded"
                     onClick={() => handleDeletePlace(place._id)}
                   >
                     Deletar
@@ -277,4 +277,4 @@ const PlacesPage = () => {
   );
 };
 
-export default withLogin(PlacesPage);
+export default WithLogin(PlacesPage);

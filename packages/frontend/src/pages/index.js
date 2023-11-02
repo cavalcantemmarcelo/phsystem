@@ -7,7 +7,7 @@ import FeaturesSection from "@/sections/FeaturesSection";
 import ModulesSection from "@/sections/ModulesSection";
 import FaqSection from "@/sections/FaqSection";
 import Footer from "@/sections/Footer";
-import withLogin from "@/scripts/withLogin";
+import WithLogin from "@/scripts/WithLogin";
 import homeData from "./data/homeData";
 
 function Home() {
@@ -23,4 +23,4 @@ function Home() {
   );
 }
 
-export default withLogin(Home);
+export default WithLogin(Home);

@@ -55,7 +55,7 @@ export default function Login() {
 
   return (
     <>
-      <div className=" flex items-center justify-center mt-40">
+      <div className="flex items-center justify-center mt-40">
         <div className="bg-white p-8 rounded-lg shadow-md w-96">
           <h2 className="text-2xl font-semibold mb-4">Acesso ao sistema</h2>
           <form>

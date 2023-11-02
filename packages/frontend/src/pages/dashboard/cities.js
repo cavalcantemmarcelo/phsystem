@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
-import withLogin from "@/scripts/withLogin";
+import WithLogin from "@/scripts/WithLogin";
 
 const apiUrl = "http://localhost:3333/cities";
 const statesApiUrl = "http://localhost:3333/states";
@@ -116,14 +116,14 @@ const CityPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full">
+    <div className="flex-grow items-center justify-center bg-gray-50 rounded">
+      <div className="bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold mb-4">Cidades</h1>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-semibold  py-1 px-2 rounded"
           onClick={() =>
             openModal(
               "Criar Cidade",
@@ -155,7 +155,7 @@ const CityPage = () => {
                 </td>
                 <td>
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    className="bg-gray-300 hover:bg-gray-400 mx-2 text-gray-700 font-semibold py-1 px-2 rounded"
                     onClick={() => {
                       console.log(`Editing city ID: ${city._id}`);
                       fetchCityForEdit(city._id, setIsModalOpen);
@@ -164,7 +164,7 @@ const CityPage = () => {
                     Editar
                   </button>
                   <button
-                    className="bg-red-500 hover:bg-red-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    className="bg-red-500 hover:bg-red-700 mx-2 text-white font-semibold  py-1 px-2 rounded"
                     onClick={() => handleDeleteCity(city._id)}
                   >
                     Deletar
@@ -205,4 +205,4 @@ const CityPage = () => {
   );
 };
 
-export default withLogin(CityPage);
+export default WithLogin(CityPage);
