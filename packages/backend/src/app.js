@@ -17,9 +17,9 @@ const placesRoutes = require("./routes/placesRoutes");
 const usersRoutes = require("./routes/usersRoutes");
 const ratingsRoutes = require("./routes/ratingsRoutes");
 const statesRoutes = require("./routes/statesRoutes");
-const appointmentsRoutes = require("./controllers/appointmentsRoutes");
-const userRolesRoutes = require("./controllers/userRolesRoutes");
-const categoriesRoutes = require("./controllers/categoriesRoutes");
+const appointmentsRoutes = require("./routes/appointmentsRoutes");
+const userRolesRoutes = require("./routes/userRolesRoutes");
+const categoriesRoutes = require("./routes/categoriesRoutes");
 
 // JWT verification middleware
 app.use(function (req, res, next) {
@@ -52,10 +52,6 @@ app.use("/states", statesRoutes);
 app.use("/appointments", appointmentsRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/roles", userRolesRoutes);
-
-app.use("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.use(function (req, res) {
   res.status(404).send({ url: req.originalUrl + " not found" });

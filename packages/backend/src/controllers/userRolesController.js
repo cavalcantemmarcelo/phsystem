@@ -1,5 +1,5 @@
 const { validationResult, check } = require("express-validator");
-const UserRole = require("../models/UserRole");
+const UserRole = require("../models/UserRoles");
 
 const userRoleValidationRules = [
   check("name").not().isEmpty().withMessage("User role name is required"),

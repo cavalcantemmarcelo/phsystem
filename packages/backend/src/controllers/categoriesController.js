@@ -1,7 +1,7 @@
 const { validationResult, check } = require("express-validator");
-const Category = require("../models/Category");
+const Category = require("../models/Categories");
 
-const categoryValidationRules = [
+const categoriesValidationRules = [
   check("name").not().isEmpty().withMessage("Category name is required"),
 ];
 
@@ -20,7 +20,7 @@ module.exports = {
   },
 
   async store(req, res) {
-    categoryValidationRules.forEach((rule) => rule(req));
+    categoriesValidationRules.forEach((rule) => rule(req));
 
     const errors = validationResult(req);
 
@@ -40,7 +40,7 @@ module.exports = {
 
   async update(req, res) {
     // Validate the request
-    categoryValidationRules.forEach((rule) => rule(req));
+    categoriesValidationRules.forEach((rule) => rule(req));
 
     const errors = validationResult(req);
 
