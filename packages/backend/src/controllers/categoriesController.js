@@ -1,7 +1,7 @@
 const { validationResult, check } = require("express-validator");
 const Category = require("../models/Categories");
 
-const categoriesValidationRules = [
+const validationRules = [
   check("name").not().isEmpty().withMessage("Category name is required"),
 ];
 
@@ -28,18 +28,17 @@ module.exports = {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name } = req.body;
+    const { name, description } = req.body;
 
     try {
-      const category = await Category.create({ name });
-      return res.json(category);
+      const category = await Category.create({ name, description });
+      return res.status(200).json(category);
     } catch (err) {
       return res.status(400).json({ error: "Error creating category" });
     }
   },
 
   async update(req, res) {
-    // Validate the request
     categoriesValidationRules.forEach((rule) => rule(req));
 
     const errors = validationResult(req);
@@ -48,11 +47,11 @@ module.exports = {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name } = req.body;
+    const { name, description } = req.body;
 
     const category = await Category.findByIdAndUpdate(
       req.params.id,
-      { name },
+      { name, description },
       { new: true }
     );
 
@@ -60,7 +59,7 @@ module.exports = {
       return res.status(404).json({ error: "Category not found" });
     }
 
-    return res.json(category);
+    return res.status(200).json(category);
   },
 
   async destroy(req, res) {

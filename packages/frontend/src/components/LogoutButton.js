@@ -11,14 +11,11 @@ const LogoutButton = () => {
 
     await axios.post(apiUrl, "");
 
-    router.push("/Login");
+    router.push("/login");
   };
 
   return (
-    <button
-      className="bg-red-500 text-white px-4 py-2 rounded hover-bg-red-600"
-      onClick={handleLogout}
-    >
+    <button className="text-red" onClick={handleLogout}>
       Logout
     </button>
   );

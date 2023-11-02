@@ -54,47 +54,49 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-semibold mb-4">Login</h1>
-        <form>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-600">
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="border rounded w-full py-2 px-3"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-600">
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="border rounded w-full py-2 px-3"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          <div>
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover-bg-blue-600"
-              onClick={handleLogin}
-            >
-              Login
-            </button>
-          </div>
-        </form>
+    <>
+      <div className=" flex items-center justify-center mt-40">
+        <div className="bg-white p-8 rounded-lg shadow-md w-96">
+          <h2 className="text-2xl font-semibold mb-4">Acesso ao sistema</h2>
+          <form>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-gray-600">
+                E-mail:
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="border rounded w-full py-2 px-3"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block text-gray-600">
+                Senha:
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="border rounded w-full py-2 px-3"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            <div>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded hover-bg-blue-600"
+                onClick={handleLogin}
+              >
+                Acessar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,6 +1,4 @@
 import React, { Children } from "react";
-import Image from "next/image";
-import LogoutButton from "@/components/LogoutButton";
 
 function Header({ data }) {
   return (
@@ -14,9 +12,6 @@ function Header({ data }) {
           className="text-1xl"
           dangerouslySetInnerHTML={{ __html: data.subtitle }}
         />
-      </div>
-      <div>
-        <LogoutButton />
       </div>
     </header>
   );

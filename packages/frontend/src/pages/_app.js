@@ -2,13 +2,18 @@ import { Fragment } from "react";
 import Head from "next/head";
 import "@/styles/style.css";
 import GoogleTagManager from "@/scripts/GoogleTagManager";
+import Navigation from "@/components/Navigation";
+import Footer from "@/sections/Footer";
 
 function MyApp({ Component, pageProps }) {
   return (
     <Fragment>
       <Head>
-        <title>Your Page Title</title>
-        <meta name="description" content="Your page description" />
+        <title>Sistema de Saúde Pública - Public Health System</title>
+        <meta
+          name="description"
+          content="Projeto para acesso de qualidade aos serviços médicos para promover a saúde da população."
+        />
         <link
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           rel="stylesheet"
@@ -20,8 +25,14 @@ function MyApp({ Component, pageProps }) {
 
         <GoogleTagManager />
       </Head>
-      <Component {...pageProps} />
+      <div className="min-h-screen w-full items-center justify-center bg-blue-200 flex flex-col">
+        <Navigation />
+        <main className="flex-grow">
+          <Component {...pageProps} />
+        </main>
+      </div>
       <div id="modal-root"></div>
+      <Footer />
     </Fragment>
   );
 }

@@ -2,7 +2,9 @@ const { validationResult, check } = require("express-validator");
 const UserRole = require("../models/UserRoles");
 
 const userRoleValidationRules = [
-  check("name").not().isEmpty().withMessage("User role name is required"),
+  //   check("name").not().isEmpty().withMessage("User role name is required"),
+  //   check("description").optional(),
+  //   check("user").isMongoId().withMessage("Invalid user ID"),
 ];
 
 module.exports = {
@@ -28,10 +30,10 @@ module.exports = {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name } = req.body;
+    const { name, description, user } = req.body;
 
     try {
-      const userRole = await UserRole.create({ name });
+      const userRole = await UserRole.create({ name, description, user });
       return res.json(userRole);
     } catch (err) {
       return res.status(400).json({ error: "Error creating user role" });
@@ -39,7 +41,6 @@ module.exports = {
   },
 
   async update(req, res) {
-    // Validate the request
     userRoleValidationRules.forEach((rule) => rule(req));
 
     const errors = validationResult(req);
@@ -48,11 +49,11 @@ module.exports = {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name } = req.body;
+    const { name, description, user } = req.body;
 
     const userRole = await UserRole.findByIdAndUpdate(
       req.params.id,
-      { name },
+      { name, description, user },
       { new: true }
     );
 
