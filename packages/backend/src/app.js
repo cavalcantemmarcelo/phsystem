@@ -1,26 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonwebtoken = require("jsonwebtoken");
-require('./src/config/db');
+const db = require('./config/db');
 
 const app = express();
 const port = 3333;
 const cors = require('cors');
 
-app.use(bodyParser.urlencoded({ extended: true })); // Place bodyParser middleware here
-app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-const citiesRoutes = require('./src/routes/citiesRoutes');
-const contentsRoutes = require('./src/routes/contentsRoutes');
-const favoritesRoutes = require('./src/routes/favoritesRoutes');
-const placesRoutes = require('./src/routes/placesRoutes');
-const usersRoutes = require('./src/routes/usersRoutes');
-const ratingsRoutes = require('./src/routes/ratingsRoutes');
-const statesRoutes = require('./src/routes/statesRoutes');
+const citiesRoutes = require('./routes/citiesRoutes');
+const favoritesRoutes = require('./routes/favoritesRoutes');
+const placesRoutes = require('./routes/placesRoutes');
+const usersRoutes = require('./routes/usersRoutes');
+const ratingsRoutes = require('./routes/ratingsRoutes');
+const statesRoutes = require('./routes/statesRoutes');
 
 // JWT verification middleware
 app.use(function(req, res, next) {
