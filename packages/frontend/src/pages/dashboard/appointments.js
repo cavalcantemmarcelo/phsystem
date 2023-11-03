@@ -61,29 +61,15 @@ const AppointmentsPage = () => {
       try {
         const token = sessionStorage.getItem("token");
         const response = await axios.get(apiUrl, {
-          headers: { Authorization: `JWT ${token}` },
+          headers: {
+            Authorization: `JWT ${token}`,
+          },
         });
-
-        if (user) {
-          const isAdmin = user.role === "admin";
-          let filteredAppointments = response.data;
-
-          if (!isAdmin) {
-            filteredAppointments = response.data.filter(
-              (appointment) => appointment.user._id === user._id
-            );
-          }
-
-          setAppointments(filteredAppointments);
-        } else {
-          setAppointments([]);
-        }
+        setAppointments(response.data);
       } catch (error) {
-        console.error(error);
         setError("Error fetching appointments from the API.");
       }
     };
-
     const minStartDate = new Date();
     minStartDate.setDate(minStartDate.getDate() + 1);
     minStartDate.setHours(minStartDate.getHours() + 1);

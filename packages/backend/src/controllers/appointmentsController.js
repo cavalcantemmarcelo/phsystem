@@ -1,16 +1,41 @@
 const { check, validationResult } = require("express-validator");
 const Appointments = require("../models/Appointments");
+const jwt = require("jsonwebtoken");
 
 const validationRules = [];
 
 module.exports = {
   async index(req, res) {
-    const appointments = await Appointments.find().populate(
-      "user place category"
-    );
-    return res.json(appointments);
-  },
+    if (
+      req.headers &&
+      req.headers.authorization &&
+      req.headers.authorization.split(" ")[0] === "JWT"
+    ) {
+      jwt.verify(
+        req.headers.authorization.split(" ")[1],
+        "RESTFULAPIs",
+        function (err, decode) {
+          if (err) req.user = undefined;
+          req.user = decode;
+        }
+      );
+    }
 
+    let query = { user: req.user._id };
+
+    if (req.user.role === "admin") {
+      query = {};
+    }
+
+    try {
+      const appointments = await Appointments.find(query).populate(
+        "user place category"
+      );
+      return res.json(appointments);
+    } catch (error) {
+      return res.status(500).json({ error: "Error fetching appointments" });
+    }
+  },
   async validationResult(req, res) {
     validationRules.forEach((rule) => rule(req));
 
