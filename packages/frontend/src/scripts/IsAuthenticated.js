@@ -4,7 +4,7 @@ export default async function isAuthenticated() {
   if (typeof window !== "undefined") {
     const token = sessionStorage.getItem("token");
     if (token) {
-      return axios.get("http://localhost:3333/auth/profile", {
+      return axios.get("https://phsysystem-api.onrender.com/auth/profile", {
         headers: { Authorization: `JWT ${token}` },
       });
     }
