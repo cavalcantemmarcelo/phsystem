@@ -4,10 +4,9 @@ import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
 import WithLogin from "@/scripts/WithLogin";
 
-const baseUrl = process.env.BASE_URL;
-const apiUrl = "/places";
-const citiesApiUrl = "/cities";
-const categoriesApiUrl = "/categories";
+const apiUrl = "https://phsysystem-api.onrender.com/places";
+const citiesApiUrl = "https://phsysystem-api.onrender.com/cities";
+const categoriesApiUrl = "https://phsysystem-api.onrender.com/categories";
 
 const PlacesPage = () => {
   const [places, setPlaces] = useState([]);
@@ -34,7 +33,7 @@ const PlacesPage = () => {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const response = await axios.get(baseUrl + apiUrl);
+        const response = await axios.get(apiUrl);
         setPlaces(response.data);
       } catch (error) {
         console.log(error);
@@ -44,7 +43,7 @@ const PlacesPage = () => {
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(baseUrl + categoriesApiUrl);
+        const response = await axios.get(categoriesApiUrl);
         setCategories(response.data);
       } catch (error) {
         setError("Error fetching places from the API.");
@@ -53,10 +52,10 @@ const PlacesPage = () => {
 
     const fetchCities = async () => {
       try {
-        const response = await axios.get(baseUrl + citiesApiUrl);
+        const response = await axios.get(citiesApiUrl);
         setCities(response.data);
       } catch (error) {
-        console.log(error, baseUrl + citiesApiUrl);
+        console.log(error, citiesApiUrl);
         setError("Error fetching cities from the API.");
       }
     };

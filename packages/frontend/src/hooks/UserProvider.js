@@ -21,11 +21,14 @@ export function UserProvider({ children }) {
   async function fetchUserData(token) {
     try {
       console.log(process.env.BASE_URL);
-      const response = await fetch(process.env.BASE_URL + "/auth/profile", {
-        headers: {
-          Authorization: `JWT ${token}`,
-        },
-      });
+      const response = await fetch(
+        "https://phsysystem-api.onrender.com/auth/profile",
+        {
+          headers: {
+            Authorization: `JWT ${token}`,
+          },
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         return data.user_info;

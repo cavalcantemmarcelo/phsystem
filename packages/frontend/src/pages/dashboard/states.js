@@ -3,7 +3,7 @@ import axios from "axios";
 import GenericForm from "@/components/GenericForm";
 import WithLogin from "@/scripts/WithLogin";
 
-const apiUrl = process.env.BASE_URL + "/states";
+const apiUrl = "https://phsysystem-api.onrender.com/states";
 
 const StatePage = () => {
   const [name, setName] = useState("");

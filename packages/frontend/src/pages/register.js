@@ -8,7 +8,7 @@ export default function Registration() {
   const [name, setName] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  const apiUrl = process.env.BASE_URL + "/auth/register"; // Change the API endpoint for registration
+  const apiUrl = "https://phsysystem-api.onrender.com/auth/register";
 
   const checkTokenAndRedirect = () => {
     const token = sessionStorage.getItem("token");

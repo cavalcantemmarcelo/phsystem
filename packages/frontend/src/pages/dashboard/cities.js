@@ -4,8 +4,8 @@ import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
 import WithLogin from "@/scripts/WithLogin";
 
-const apiUrl = process.env.BASE_URL + "/cities";
-const statesApiUrl = process.env.BASE_URL + "/states";
+const apiUrl = "https://phsysystem-api.onrender.com/cities";
+const statesApiUrl = "https://phsysystem-api.onrender.com/states";
 
 const CityPage = () => {
   const [cities, setCities] = useState([]);

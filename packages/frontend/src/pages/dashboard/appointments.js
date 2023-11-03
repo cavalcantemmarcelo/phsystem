@@ -3,10 +3,10 @@ import axios from "axios";
 import GenericForm from "@/components/GenericForm";
 import Modal from "@/components/Modal";
 
-const apiUrl = process.env.BASE_URL + "/appointments";
-const categoriesUrl = process.env.BASE_URL + "/categories";
-const placesUrl = process.env.BASE_URL + "/places";
-const userUrl = process.env.BASE_URL + "/auth/profile";
+const apiUrl = "https://phsysystem-api.onrender.com/appointments";
+const categoriesUrl = "https://phsysystem-api.onrender.com/categories";
+const placesUrl = "https://phsysystem-api.onrender.com/places";
+const userUrl = "https://phsysystem-api.onrender.com/auth/profile";
 
 const AppointmentsPage = () => {
   const userRole = "65427a57c50ca80c689ee9dd";

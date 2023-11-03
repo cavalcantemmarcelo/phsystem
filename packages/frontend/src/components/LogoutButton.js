@@ -4,7 +4,7 @@ import axios from "axios";
 
 const LogoutButton = () => {
   const router = useRouter();
-  const apiUrl = process.env.BASE_URL + "/auth/logout";
+  const apiUrl = "https://phsysystem-api.onrender.com/auth/logout";
 
   const handleLogout = async () => {
     sessionStorage.removeItem("token");
