@@ -1,23 +1,26 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+import isAuthenticated from "@/scripts/IsAuthenticated";
 
-const isAuthenticated = () => {
-  const token = sessionStorage.getItem("token");
-  return !!token;
-};
-
-const withLogin = (Component) => {
+const WithAuth = (WrappedComponent) => {
   return (props) => {
     const router = useRouter();
 
     useEffect(() => {
-      if (!isAuthenticated()) {
-        router.push("/login");
-      }
+      isAuthenticated()
+        .then((user) => {
+          if (!user) {
+            router.push("/login");
+          }
+        })
+        .catch((error) => {
+          console.error("Authentication error:", error);
+          router.push("/login");
+        });
     }, []);
 
-    return <Component {...props} />;
+    return <WrappedComponent {...props} />;
   };
 };
 
-export default withLogin;
+export default WithAuth;

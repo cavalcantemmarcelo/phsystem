@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GenericForm from "@/components/GenericForm";
-import withLogin from "@/scripts/withLogin";
+import WithLogin from "@/scripts/WithLogin";
 
-const apiUrl = "http://localhost:3333/states";
+const apiUrl = process.env.BASE_URL + "/states";
 
 const StatePage = () => {
   const [name, setName] = useState("");
@@ -81,14 +81,14 @@ const StatePage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50">
+    <div className="flex items-center justify-center bg-gray-50 rounded">
       <div className="bg-white p-8 rounded-lg shadow-md w-full">
         <h1 className="text-2xl font-semibold mb-4">Estados</h1>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-semibold  py-1 px-2 rounded"
           onClick={() => setShowCreateModal(true)}
         >
           Criar Estado
@@ -107,15 +107,15 @@ const StatePage = () => {
               <tr key={state._id}>
                 <td className="py-2 px-4">{state.name}</td>
                 <td className="py-2 px-4">{state.abbreviation}</td>
-                <td>
+                <td className="py-2 px-4 w-70">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 mx-5 text-white font-bold py-2 px-4 rounded"
+                    className="bg-gray-300 hover:bg-gray-400 mx-2 text-gray-700 font-semibold py-1 px-2 rounded"
                     onClick={() => fetchStateForEdit(state._id)}
                   >
                     Editar
                   </button>
                   <button
-                    className="bg-red-500 hover:bg-red-700  mx-5 text-white font-bold py-2 px-4 rounded"
+                    className="bg-red-500 hover:bg-red-700 mx-2 text-white font-semibold  py-1 px-2 rounded"
                     onClick={() => handleDeleteState(state._id)}
                   >
                     Deletar
@@ -169,4 +169,4 @@ const StatePage = () => {
   );
 };
 
-export default withLogin(StatePage);
+export default WithLogin(StatePage);

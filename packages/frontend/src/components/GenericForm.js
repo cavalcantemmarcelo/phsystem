@@ -14,7 +14,7 @@ const GenericForm = ({ fields, onSubmit }) => {
           {fields.map((field) => (
             <div key={field.name} className="mb-4">
               <label htmlFor={field.name} className="block text-gray-600">
-                {field.label}:
+                {field.label}
               </label>
               {field.type === "select" ? (
                 <select
@@ -47,7 +47,7 @@ const GenericForm = ({ fields, onSubmit }) => {
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            Submit
+            Enviar
           </button>
         </form>
       </div>

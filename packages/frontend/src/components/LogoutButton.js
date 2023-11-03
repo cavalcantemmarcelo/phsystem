@@ -4,22 +4,22 @@ import axios from "axios";
 
 const LogoutButton = () => {
   const router = useRouter();
-  const apiUrl = "http://localhost:3333/auth/logout";
+  const apiUrl = process.env.BASE_URL + "/auth/logout";
 
   const handleLogout = async () => {
     sessionStorage.removeItem("token");
 
     await axios.post(apiUrl, "");
 
-    router.push("/Login");
+    router.push("/login");
   };
 
   return (
     <button
-      className="bg-red-500 text-white px-4 py-2 rounded hover-bg-red-600"
+      className="text-white text-small cursor-pointer rounded-sm px-2 bg-blue-700"
       onClick={handleLogout}
     >
-      Logout
+      Sair
     </button>
   );
 };
