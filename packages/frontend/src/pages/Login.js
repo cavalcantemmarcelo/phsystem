@@ -7,7 +7,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  const apiUrl = "http://localhost:3333/auth/login";
+  const apiUrl = process.env.BASE_URL + "/auth/login";
 
   const checkTokenAndRedirect = () => {
     const token = sessionStorage.getItem("token");

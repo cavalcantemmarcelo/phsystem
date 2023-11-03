@@ -3,10 +3,10 @@ import axios from "axios";
 import GenericForm from "@/components/GenericForm";
 import Modal from "@/components/Modal";
 
-const apiUrl = "http://localhost:3333/appointments";
-const categoriesUrl = "http://localhost:3333/categories";
-const placesUrl = "http://localhost:3333/places";
-const userUrl = "http://localhost:3333/auth/profile";
+const apiUrl = process.env.BASE_URL + "/appointments";
+const categoriesUrl = process.env.BASE_URL + "/categories";
+const placesUrl = process.env.BASE_URL + "/places";
+const userUrl = process.env.BASE_URL + "/auth/profile";
 
 const AppointmentsPage = () => {
   const userRole = "65427a57c50ca80c689ee9dd";

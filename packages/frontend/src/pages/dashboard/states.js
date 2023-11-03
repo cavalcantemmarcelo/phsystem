@@ -3,7 +3,7 @@ import axios from "axios";
 import GenericForm from "@/components/GenericForm";
 import WithLogin from "@/scripts/WithLogin";
 
-const apiUrl = "http://localhost:3333/states";
+const apiUrl = process.env.BASE_URL + "/states";
 
 const StatePage = () => {
   const [name, setName] = useState("");

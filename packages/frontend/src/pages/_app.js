@@ -1,7 +1,6 @@
 import { Fragment, useEffect } from "react";
 import Head from "next/head";
 import "@/styles/style.css";
-import GoogleTagManager from "@/scripts/GoogleTagManager";
 import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
 

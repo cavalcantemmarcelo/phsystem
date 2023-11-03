@@ -20,7 +20,8 @@ export function UserProvider({ children }) {
 
   async function fetchUserData(token) {
     try {
-      const response = await fetch("http://localhost:3333/auth/profile", {
+      console.log(process.env.BASE_URL);
+      const response = await fetch(process.env.BASE_URL + "/auth/profile", {
         headers: {
           Authorization: `JWT ${token}`,
         },

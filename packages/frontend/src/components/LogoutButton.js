@@ -4,7 +4,7 @@ import axios from "axios";
 
 const LogoutButton = () => {
   const router = useRouter();
-  const apiUrl = "http://localhost:3333/auth/logout";
+  const apiUrl = process.env.BASE_URL + "/auth/logout";
 
   const handleLogout = async () => {
     sessionStorage.removeItem("token");
