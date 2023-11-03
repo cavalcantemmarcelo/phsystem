@@ -6,10 +6,12 @@ import WithLogin from "@/scripts/WithLogin";
 
 const apiUrl = "http://localhost:3333/places";
 const citiesApiUrl = "http://localhost:3333/cities";
+const categoriesApiUrl = "http://localhost:3333/categories";
 
 const PlacesPage = () => {
   const [places, setPlaces] = useState([]);
   const [cities, setCities] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [editingPlace, setEditingPlace] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,6 +40,15 @@ const PlacesPage = () => {
       }
     };
 
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(categoriesApiUrl);
+        setCategories(response.data);
+      } catch (error) {
+        setError("Error fetching places from the API.");
+      }
+    };
+
     const fetchCities = async () => {
       try {
         const response = await axios.get(citiesApiUrl);
@@ -49,6 +60,7 @@ const PlacesPage = () => {
 
     fetchPlaces();
     fetchCities();
+    fetchCategories();
   }, []);
 
   const openModal = (title, fields, onSubmit) => {
@@ -160,7 +172,7 @@ const PlacesPage = () => {
         <h1 className="text-2xl font-semibold mb-4">Locais de Atendimento</h1>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-semibold  py-1 px-2 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-semibold py-1 px-2 rounded"
           onClick={() =>
             openModal(
               "Criar Lugar",
@@ -188,7 +200,7 @@ const PlacesPage = () => {
               <th className="py-2 px-4 bg-gray-100">Capacidade</th>
               <th className="py-2 px-4 bg-gray-100">Descrição</th>
               <th className="py-2 px-4 bg-gray-100">Categoria</th>
-              <th className="py-2 px-4 bg-gray-100 w-80">Ações</th>
+              <th className="py-2 px-4 bg-gray-100 w-70">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -200,16 +212,22 @@ const PlacesPage = () => {
                 </td>
                 <td className="py-2 px-4">{place.capacity}</td>
                 <td className="py-2 px-4">{place.description}</td>
-                <td className="py-2 px-4">{place.category}</td>
-                <td>
+                <td className="py-2 px-4">
+                  {
+                    categories.find(
+                      (category) => category._id === place.category
+                    )?.name
+                  }
+                </td>
+                <td className="py-2 px-4 w-70">
                   <button
-                    className="bg-blue-500 hover-bg-blue-700 mx-2 text-white font-semibold  py-1 px-2 rounded"
+                    className="bg-gray-300 hover-bg-gray-400 mx-2 text-gray-700 font-semibold py-1 px-2 rounded"
                     onClick={() => fetchPlaceForEdit(place._id)}
                   >
                     Editar
                   </button>
                   <button
-                    className="bg-red-500 hover-bg-red-700 mx-2 text-white font-semibold  py-1 px-2 rounded"
+                    className="bg-red-500 hover-bg-red-700 mx-2 text-white font-semibold py-1 px-2 rounded"
                     onClick={() => handleDeletePlace(place._id)}
                   >
                     Deletar
@@ -249,9 +267,13 @@ const PlacesPage = () => {
               },
               {
                 name: "category",
-                type: "text",
+                type: "select",
                 label: "Categoria",
                 value: formFields.category,
+                options: categories.map((category) => ({
+                  value: category._id,
+                  label: category.name,
+                })),
                 onChange: handleInputChange,
               },
               {
@@ -259,13 +281,6 @@ const PlacesPage = () => {
                 type: "text",
                 label: "Descrição",
                 value: formFields.description,
-                onChange: handleInputChange,
-              },
-              {
-                name: "link",
-                type: "text",
-                label: "Link",
-                value: formFields.link,
                 onChange: handleInputChange,
               },
             ]}

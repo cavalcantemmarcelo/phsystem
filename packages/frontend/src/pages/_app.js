@@ -37,17 +37,14 @@ function MyApp({ Component, pageProps }) {
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
           rel="stylesheet"
         />
-
-        <GoogleTagManager />
       </Head>
-      <div className="min-h-screen w-full items-center justify-center bg-blue-200 flex flex-col">
+      <div className="p-0 min-h-screen bg-blue-200">
         <Navigation />
-        <main className="flex-grow">
+        <main className="flex-grow mx-20">
           <Component {...pageProps} />
         </main>
+        <Footer />
       </div>
-      <div id="modal-root"></div>
-      <Footer />
     </Fragment>
   );
 }

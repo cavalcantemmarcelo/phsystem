@@ -1,17 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const Appointments = require("../models/Appointments");
 
-const validationRules = [
-  check("user").isMongoId().withMessage("Invalid user ID"),
-  check("place").isMongoId().withMessage("Invalid place ID"),
-  check("startTime").isISO8601().withMessage("Invalid start time"),
-  check("endTime").isISO8601().withMessage("Invalid end time"),
-  check("status")
-    .isIn(["pendente", "aprovado", "rejeitado"])
-    .withMessage("Invalid status"),
-  check("userRole").isMongoId().withMessage("Invalid userRole ID"),
-  check("category").isMongoId().withMessage("Invalid category ID"),
-];
+const validationRules = [];
 
 module.exports = {
   async index(req, res) {
@@ -34,26 +24,20 @@ module.exports = {
   },
 
   async store(req, res) {
-    const validationResultResponse = await this.validationResult(req, res);
+    const { user, place, endTime, status, userRole, category } = req.body;
 
-    if (validationResultResponse.status !== 200) {
-      return validationResultResponse;
-    }
-
-    const { user, place, startTime, endTime, status, userRole, category } =
-      req.body;
+    const startTime = new Date().toISOString();
 
     try {
       const appointment = await Appointments.create({
         user,
         place,
-        startTime,
         endTime,
         status,
         userRole,
         category,
       });
-      return res.json(appointment);
+      return res.status(200).json(appointment);
     } catch (err) {
       return res.status(400).json({ error: "Error creating appointment" });
     }
@@ -63,18 +47,18 @@ module.exports = {
     const validationResultResponse = await this.validationResult(req, res);
 
     if (validationResultResponse.status !== 200) {
-      return validationResultResponse;
+      return res
+        .status(validationResultResponse.status)
+        .json(validationResultResponse);
     }
 
-    const { user, place, startTime, endTime, status, userRole, category } =
-      req.body;
+    const { user, place, endTime, status, userRole, category } = req.body;
 
     const appointment = await Appointments.findByIdAndUpdate(
       req.params.id,
       {
         user,
         place,
-        startTime,
         endTime,
         status,
         userRole,
@@ -87,7 +71,7 @@ module.exports = {
       return res.status(400).json({ error: "Appointment not found" });
     }
 
-    return res.json(appointment);
+    return res.status(200).json(appointment);
   },
 
   async destroy(req, res) {
@@ -101,9 +85,19 @@ module.exports = {
   },
 
   async show(req, res) {
-    const appointment = await Appointments.findById(req.params.id).populate(
-      "user place category"
-    );
-    return res.json(appointment);
+    try {
+      const appointment = await Appointments.findById(req.params.id)
+        .populate("user", "email fullname")
+        .populate("place", "name")
+        .populate("category", "name");
+
+      if (!appointment) {
+        return res.status(404).json({ error: "Appointment not found" });
+      }
+
+      return res.json(appointment);
+    } catch (err) {
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
   },
 };

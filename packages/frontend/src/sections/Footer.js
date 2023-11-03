@@ -3,7 +3,7 @@ import React from "react";
 
 function Footer({ data }) {
   return (
-    <footer className="bg-blue-400 p-4 w-full items-center lg:justify-between py-4 lg:px-4 ">
+    <footer className="bg-blue-400 p-4 w-full items-center lg:justify-between py-4 lg:px-4 mt-20">
       <p className="text-center">
         {data?.disclaimer
           ? data.disclaimer

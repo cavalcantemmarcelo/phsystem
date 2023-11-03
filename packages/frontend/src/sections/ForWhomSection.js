@@ -1,17 +1,21 @@
-import React from 'react';
+import React from "react";
 
 function ForWhomSection({ data }) {
   const { title, points, ctaLink, ctaText } = data;
 
   return (
-    <section id="for-whom" className="parallax bg-blue max-w-screen-xl px-8 mx-auto lg:items-center lg:justify-between lg:flex-row py-16 bg-blue">
+    <section
+      id="for-whom"
+      className="parallax bg-blue max-w-screen-xl px-8 mx-auto lg:items-center lg:justify-between lg:flex-row py-16 bg-blue"
+    >
       <div className="container mx-auto text-center mb-8">
         <h2 className="text-2xl font-semibold">{title}</h2>
       </div>
-      <ul className="mx-auto w-3/6">
+      <ul className="mx-auto w-2/8 text-center">
         {points.map((point, index) => (
           <li key={index}>
-            <i className="fas fa-check fa-1x text-4xl text-blue ml-3 mt-3"></i> {point}
+            <i className="fas fa-check fa-1x text-4xl text-blue ml-3 mt-3"></i>{" "}
+            {point}
           </li>
         ))}
       </ul>

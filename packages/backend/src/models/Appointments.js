@@ -13,16 +13,15 @@ const appointmentsSchema = new mongoose.Schema({
   },
   startTime: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   endTime: {
     type: Date,
-    required: true,
   },
   status: {
     type: String,
     enum: ["pendente", "aprovado", "rejeitado", "realizado"],
-    default: "pending",
+    default: "pendente",
   },
   userRole: {
     type: mongoose.Schema.Types.ObjectId,

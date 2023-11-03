@@ -1,4 +1,4 @@
-const ctaLinkDefault = "#";
+const ctaLinkDefault = "/dashboard/appointments";
 
 const homeData = {
   authorData: {

@@ -59,33 +59,50 @@ const Navigation = () => {
 
   const notLoggedMenuItems = (
     <ul className="flex space-x-4">
+      <Link href="/login" passHref className="text-white hover:text-gray-300">
+        Login
+      </Link>
       <li>
-        <Link href="/login" passHref className="text-white hover:text-gray-300">
-          Login
+        <Link
+          href="/register"
+          passHref
+          className="text-white hover:text-gray-300"
+        >
+          Cadastro
         </Link>
       </li>
     </ul>
   );
 
   const [menu, setMenu] = useState(notLoggedMenuItems);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setMenu(
-      isAuthenticated() && isAuthenticated().length > 0
-        ? menuItems
-        : notLoggedMenuItems
-    );
+    isAuthenticated()
+      .then((response) => {
+        if (response) {
+          const user = response.data.user_info;
+          setUser(user);
+          setMenu(user ? menuItems : notLoggedMenuItems);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+        setMenu(notLoggedMenuItems);
+      });
   }, []);
 
   return (
-    <nav className="bg-blue-900 py-4 w-full p-5 mb-10">
-      <div className="container flex justify-between items-center w-full">
-        <Link href="/" passHref className="text-white text-2xm font-semibold">
-          PH System
-        </Link>
-        {menuItems}
-      </div>
-    </nav>
+    <div className="w-full mb-20 ">
+      <nav className="bg-blue-900 p-5 mb-5 w-fi;;">
+        <div className="flex justify-between items-center w-full">
+          <Link href="/" passHref className="text-white text-2xm font-semibold">
+            PH System
+          </Link>
+          {menu}
+        </div>
+      </nav>
+    </div>
   );
 };
 
