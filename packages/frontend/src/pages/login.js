@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useUser } from "@/context/UserProvider";
+
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://phsysystem-api.onrender.com";
+const apiUrl = baseUrl + "/auth/login";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  const apiUrl = "https://phsysystem-api.onrender.com/auth/login";
+  const { login } = useUser();
 
   const checkTokenAndRedirect = () => {
     const token = sessionStorage.getItem("token");
@@ -36,11 +41,8 @@ export default function Login() {
         headers,
       });
 
-      console.log(response);
-
       if (response.status === 200) {
-        const token = response.data.token;
-        sessionStorage.setItem("token", token);
+        login(email, password);
         checkTokenAndRedirect();
       } else {
         console.error("Login failed");

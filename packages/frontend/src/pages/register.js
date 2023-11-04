@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://phsysystem-api.onrender.com";
+
 export default function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  const apiUrl = "https://phsysystem-api.onrender.com/auth/register";
+  const apiUrl = baseUrl + "/auth/register";
 
   const checkTokenAndRedirect = () => {
     const token = sessionStorage.getItem("token");
@@ -39,14 +42,9 @@ export default function Registration() {
         headers,
       });
 
-      console.log(response);
-
       if (response.status === 201) {
-        const token = response.data.token;
-        sessionStorage.setItem("token", token);
-        checkTokenAndRedirect();
+        router.push("/login");
       } else {
-        console.error("Registration failed");
         setError("Erro no cadastro, confira seus dados.");
       }
     } catch (error) {
@@ -55,7 +53,6 @@ export default function Registration() {
       console.error("An error occurred:", error);
     }
   };
-
   return (
     <>
       <div className="flex items-center justify-center">
@@ -107,7 +104,7 @@ export default function Registration() {
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 onClick={handleRegistration}
               >
-                Castrar
+                Cadastrar
               </button>
             </div>
           </form>

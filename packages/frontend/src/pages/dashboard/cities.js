@@ -4,8 +4,10 @@ import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
 import WithLogin from "@/scripts/WithLogin";
 
-const apiUrl = "https://phsysystem-api.onrender.com/cities";
-const statesApiUrl = "https://phsysystem-api.onrender.com/states";
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://phsysystem-api.onrender.com";
+const apiUrl = baseUrl + "/cities";
+const statesApiUrl = baseUrl + "/states";
 
 const CityPage = () => {
   const [cities, setCities] = useState([]);
@@ -143,7 +145,7 @@ const CityPage = () => {
             <tr>
               <th className="py-2 px-4 bg-gray-100">Nome</th>
               <th className="py-2 px-4 bg-gray-100">Estado</th>
-              <th className="py-2 px-4 bg-gray-100">Ações</th>
+              <th className="py-2 px-4 bg-gray-100 w-80">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -153,7 +155,7 @@ const CityPage = () => {
                 <td className="py-2 px-4">
                   {states.find((state) => state._id === city.state)?.name}
                 </td>
-                <td>
+                <td className="py-2 px-4">
                   <button
                     className="bg-gray-300 hover:bg-gray-400 mx-2 text-gray-700 font-semibold py-1 px-2 rounded"
                     onClick={() => {

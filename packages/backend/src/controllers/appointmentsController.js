@@ -69,34 +69,30 @@ module.exports = {
   },
 
   async update(req, res) {
-    const validationResultResponse = await this.validationResult(req, res);
-
-    if (validationResultResponse.status !== 200) {
-      return res
-        .status(validationResultResponse.status)
-        .json(validationResultResponse);
-    }
-
     const { user, place, endTime, status, userRole, category } = req.body;
 
-    const appointment = await Appointments.findByIdAndUpdate(
-      req.params.id,
-      {
-        user,
-        place,
-        endTime,
-        status,
-        userRole,
-        category,
-      },
-      { new: true }
-    );
+    try {
+      const appointment = await Appointments.findByIdAndUpdate(
+        req.params.id,
+        {
+          user,
+          place,
+          endTime,
+          status,
+          userRole,
+          category,
+        },
+        { new: true }
+      );
 
-    if (!appointment) {
-      return res.status(400).json({ error: "Appointment not found" });
+      if (!appointment) {
+        return res.status(404).json({ error: "Appointment not found" });
+      }
+
+      return res.status(200).json(appointment);
+    } catch (error) {
+      return res.status(500).json({ error: "Error updating appointment" });
     }
-
-    return res.status(200).json(appointment);
   },
 
   async destroy(req, res) {

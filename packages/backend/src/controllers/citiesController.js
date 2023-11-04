@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const Cities = require("../models/Cities");
 
 module.exports = {
@@ -8,43 +7,41 @@ module.exports = {
   },
 
   async store(req, res) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     const { name, state } = req.body;
-    const city = await Cities.create(
-      {
+
+    try {
+      const city = await Cities.create({
         name,
         state,
-      },
-      { maxTimeMS: 20000 }
-    );
+      });
 
-    return res.json(city);
+      return res.json(city);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ status: false, message: "Error creating city" });
+    }
   },
 
   async update(req, res) {
-    const errors = validationResult(req);
+    try {
+      const { name, state } = req.body;
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      const city = await Cities.findByIdAndUpdate(
+        req.params.id,
+        {
+          name,
+          state,
+        },
+        { new: true }
+      );
+
+      return res.status(200).json(city);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ status: false, message: "Error updating city" });
     }
-
-    const { name, state } = req.body;
-
-    const city = await Cities.findByIdAndUpdate(
-      req.params.id,
-      {
-        name,
-        state,
-      },
-      { new: true }
-    );
-
-    return res.json(city);
   },
 
   async destroy(req, res) {
