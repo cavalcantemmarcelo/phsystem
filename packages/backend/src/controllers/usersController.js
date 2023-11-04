@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
     let newUser = new Users(req.body);
     newUser.password = bcrypt.hashSync(req.body.password, 10);
     await newUser.save();
-    res.status(200).json({ newUser });
+    res.status(201).json({ newUser });
   } catch (err) {
     console.error("Registration error:", err);
     res.status(500).json({ status: false, message: err.message });

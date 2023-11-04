@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GenericForm from "@/components/GenericForm";
 import Modal from "@/components/Modal";
+import { useUser } from "@/context/UserProvider";
 
-const apiUrl = "https://phsysystem-api.onrender.com/appointments";
-const categoriesUrl = "https://phsysystem-api.onrender.com/categories";
-const placesUrl = "https://phsysystem-api.onrender.com/places";
-const userUrl = "https://phsysystem-api.onrender.com/auth/profile";
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://phsysystem-api.onrender.com";
+const apiUrl = baseUrl + "/appointments";
+const categoriesUrl = baseUrl + "/categories";
+const placesUrl = baseUrl + "/places";
+const userUrl = baseUrl + "/auth/profile";
 
 const AppointmentsPage = () => {
   const userRole = "65427a57c50ca80c689ee9dd";
-  const [user, setUser] = useState(null);
-  const [userName, setUserName] = useState("");
+  const { user } = useUser();
+  const userName = user?.fullname;
   const [endTime, setEndTime] = useState("");
   const [place, setPlace] = useState("");
   const [category, setCategory] = useState("");
@@ -44,19 +47,6 @@ const AppointmentsPage = () => {
       }
     };
 
-    const fetchUser = async () => {
-      try {
-        const token = sessionStorage.getItem("token");
-        const userResponse = await axios.get(userUrl, {
-          headers: { Authorization: `JWT ${token}` },
-        });
-        setUser(userResponse.data.user_info);
-        setUserName(userResponse.data.user_info.fullname);
-      } catch (error) {
-        setError("Error fetching user from the API.");
-      }
-    };
-
     const fetchAppointments = async () => {
       try {
         const token = sessionStorage.getItem("token");
@@ -79,7 +69,6 @@ const AppointmentsPage = () => {
     fetchAppointments();
     fetchCategories();
     fetchPlaces();
-    fetchUser();
   }, []);
 
   const handleCreateOrUpdateAppointment = async () => {

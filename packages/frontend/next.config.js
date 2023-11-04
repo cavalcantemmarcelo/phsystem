@@ -1,11 +1,19 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    output: 'export',
-    reactStrictMode: true,
-    distDir: 'dist',
-    images: {
-        unoptimized: true,
-    }
-}
+require("dotenv").config();
 
-module.exports = nextConfig
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3333";
+console.log(baseUrl);
+
+const nextConfig = {
+  output: "export",
+  reactStrictMode: true,
+  distDir: "dist",
+  images: {
+    unoptimized: true,
+  },
+  env: {
+    API_KEY: process.env.NEXT_PUBLIC_BASE_URL,
+  },
+};
+
+module.exports = nextConfig;

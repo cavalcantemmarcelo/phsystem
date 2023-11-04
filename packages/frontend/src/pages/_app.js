@@ -3,6 +3,7 @@ import Head from "next/head";
 import "@/styles/style.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/sections/Footer";
+import { UserProvider } from "../context/UserProvider";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -21,7 +22,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Fragment>
+    <UserProvider>
       <Head>
         <title>Sistema de Saúde Pública - Public Health System</title>
         <meta
@@ -44,7 +45,7 @@ function MyApp({ Component, pageProps }) {
         </main>
         <Footer />
       </div>
-    </Fragment>
+    </UserProvider>
   );
 }
 

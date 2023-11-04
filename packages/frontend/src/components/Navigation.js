@@ -2,8 +2,11 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import isAuthenticated from "@/scripts/IsAuthenticated";
 import { useEffect, useState } from "react";
+import { useUser } from "@/context/UserProvider";
 
 const Navigation = () => {
+  const { user } = useUser();
+
   const menuItems = (
     <ul className="flex space-x-4">
       <li>
@@ -74,23 +77,15 @@ const Navigation = () => {
     </ul>
   );
 
-  const [menu, setMenu] = useState(notLoggedMenuItems);
-  const [user, setUser] = useState(null);
+  const [menu, setMenu] = useState();
 
   useEffect(() => {
-    isAuthenticated()
-      .then((response) => {
-        if (response) {
-          const user = response.data.user_info;
-          setUser(user);
-          setMenu(user ? menuItems : notLoggedMenuItems);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-        setMenu(notLoggedMenuItems);
-      });
-  }, []);
+    if (user) {
+      setMenu(menuItems);
+    } else {
+      setMenu(notLoggedMenuItems);
+    }
+  }, [user]);
 
   return (
     <div className="w-full mb-20 ">

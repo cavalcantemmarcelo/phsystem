@@ -4,9 +4,11 @@ import Modal from "@/components/Modal";
 import GenericForm from "@/components/GenericForm";
 import WithLogin from "@/scripts/WithLogin";
 
-const apiUrl = "https://phsysystem-api.onrender.com/places";
-const citiesApiUrl = "https://phsysystem-api.onrender.com/cities";
-const categoriesApiUrl = "https://phsysystem-api.onrender.com/categories";
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://phsysystem-api.onrender.com";
+const apiUrl = baseUrl + "/places";
+const citiesApiUrl = baseUrl + "/cities";
+const categoriesApiUrl = baseUrl + "/categories";
 
 const PlacesPage = () => {
   const [places, setPlaces] = useState([]);
