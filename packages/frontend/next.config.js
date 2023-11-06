@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 require("dotenv").config();
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3333";
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://phsysystem-api.onrender.com";
 console.log(baseUrl);
 
 const nextConfig = {
